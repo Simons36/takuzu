@@ -274,27 +274,20 @@ class Takuzu(Problem):
     
     def get_obligatory_move(self, state : TakuzuState) -> Tuple:
         board = state.board
-        """
-        for row in board.board_numbers:
-            count = 0
-            for num in row:
-                if num == 2:
-                    count += 1
-            if count == 1:
-        """
-        for i in range(board.board_size):
-            row = self.get_row(i, board)
-            move = self.get_obligatory_move_aux(row, board.board_size, i)
-            
-            if move != None:
-               return move 
-            
-            col = self.get_col(i, board)
-            move = self.get_obligatory_move_aux(col, board.board_size, i)
-            
-            if move != None:
-                return (move[1], move[0], move[2])
-        
+        for row_num in range(board.board_size):
+            for col_num in range(board.board_size):
+                if board.get_number(row_num, col_num) == 2:
+                    adj_hori_numbers = board.adjacent_horizontal_numbers(row_num, col_num)
+                    adj_vert_numbers = board.adjacent_vertical_numbers(row_num, col_num)
+                    if adj_hori_numbers[0] == adj_hori_numbers[1]:
+                        num = abs(adj_hori_numbers[0] - 1)
+                        if self.valid_action(row_num, col_num, state, num):
+                            return (row_num, col_num, num)
+                    if adj_vert_numbers[0] == adj_vert_numbers[1]:
+                        num = abs(adj_vert_numbers[0] - 1)
+                        if self.valid_action(row_num, col_num, state, num):
+                            return (row_num, col_num, num)
+                    
         return None
     
     def get_obligatory_move_aux(self, line, board_size, n_line):
