@@ -207,6 +207,22 @@ def depth_first_tree_search(problem):
 
     while frontier:
         node = frontier.pop()
+        # for i in range(node.state.board.board_size):
+        #     if i > 9:
+        #         print(i, "", end = "")
+        #     else:
+        #         print(i , " ", end = "")
+            
+        #print()
+        #print()
+        #print(node.state.board)
+        
+        #
+        # col = []
+        # for row in node.state.board.board_numbers:
+        #     col.append(row[node.state.board.board_size - 1])
+        # print(col)
+        #
         if problem.goal_test(node.state):
             return node
         frontier.extend(node.expand(problem))
